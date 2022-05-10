@@ -14,7 +14,7 @@ public class HistoryCommand extends AbstractCommand{
     }
 
     @Override
-    public void execute(String params) throws CommandException {
+    public void execute(String params, Object objectArgument) throws CommandException {
         ResponseOutputer.append(collectionManager.getCommandHistory());
     }
 }

@@ -4,12 +4,12 @@ import clientModule.exceptions.ParamException;
 import clientModule.exceptions.WrongInputException;
 import common.collection.LabWork;
 import common.util.CommandCode;
+import common.util.LabWorkBuilder;
 import common.util.Request;
 import common.util.ResponseCode;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class Console {
@@ -35,14 +35,14 @@ public class Console {
                 userCommand[1] = userCommand[1].trim();
                 commandCode = checkCommand(userCommand[0], userCommand[1]);
             } catch (WrongInputException e) {
-                System.out.println("Проблемы со вводом");
+                System.out.println("Проблемы со вводом" + e);
             }
         } while (commandCode == CommandCode.ERROR || userCommand[0].isEmpty());
         try {
             switch (commandCode) {
                 case ADD:
                 case UPDATE:
-                    LabWork labWork = new LabWork();
+                    LabWork labWork = LabWorkBuilder.buildLab();
                     return new Request(userCommand[0], userCommand[1], labWork);
                 case SCRIPT:
                     File scriptFile = new File(userCommand[1]);
@@ -94,8 +94,8 @@ public class Console {
                 case "show":
                 case "clear":
                 case "history":
-                case "print_unique_group_admin":
-                case "print_field_descending_should_be_expelled":
+                case "average_of_average_point":
+                    return CommandCode.SPECIAL;
                 case "exit":
                     if (!commandArguments.isEmpty()) throw new ParamException();
                     return CommandCode.EXIT;
@@ -103,11 +103,12 @@ public class Console {
                     if (!commandArguments.isEmpty()) throw new ParamException();
                     return CommandCode.ADD;
                 case "add_if_min":
+                    if (commandArguments.isEmpty()) throw new ParamException();
+                    return CommandCode.ADD;
                 case "remove_all_by_minimal_point":
-                case "average_of_average_point":
                 case "count_less_than_average_point":
                 case "remove_lower":
-                    if (!commandArguments.isEmpty()) throw new ParamException();
+                    if (commandArguments.isEmpty()) throw new ParamException();
                     return CommandCode.PARAM;
                 case "update":
                     if (commandArguments.isEmpty()) throw new ParamException();

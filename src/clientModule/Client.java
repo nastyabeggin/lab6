@@ -47,22 +47,23 @@ public class Client {
                     requestToServer = serverResponse != null ? console.interactiveMode(serverResponse.getResponseCode()) :
                             console.interactiveMode(null);
                     if (requestToServer.isEmpty()) continue;
-                    if (requestToServer.getCommandName().equals("exit")){
+                    if (requestToServer.getCommandName().equals("exit")) {
                         flag = false;
                         break;
                     }
-                    makeByteBufferToRequest(requestToServer);
-                    socketChannel.write(byteBuffer);
-                    byteBuffer.clear();
-                    socketChannel.read(byteBuffer);
-                    serverResponse = deserialize();
-                    System.out.print(serverResponse.getResponseBody());
+                    if (flag) {
+                        makeByteBufferToRequest(requestToServer);
+                        socketChannel.write(byteBuffer);
+                        byteBuffer.clear();
+                        socketChannel.read(byteBuffer);
+                        serverResponse = deserialize();
+                        System.out.print(serverResponse.getResponseBody());
+                    }
                 } catch (NullPointerException ignored) {
                 }
             } while (!requestToServer.getCommandName().equals("exit") && flag);
         } catch (IOException | ClassNotFoundException | WrongInputException exception) {
-            System.out.println("Произошла ошибка при работе с сервером!");
-            flag = false;
+            System.out.println("Произошла ошибка при работе с сервером!" + exception);
         }
         try {
             if (!flag) {

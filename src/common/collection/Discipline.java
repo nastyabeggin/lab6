@@ -1,6 +1,8 @@
 package common.collection;
 
-public class Discipline {
+import java.io.Serializable;
+
+public class Discipline implements Serializable {
     private String name; //Поле не может быть null, Строка не может быть пустой
     private long lectureHours;
     private int practiceHours;

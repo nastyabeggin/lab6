@@ -15,7 +15,7 @@ public class HelpCommand extends AbstractCommand{
     }
 
     @Override
-    public void execute(String params) throws CommandException {
+    public void execute(String params, Object objectArgument) throws CommandException {
         User tempUser = new User(collectionManager);
         ResponseOutputer.append("\tСписок доступных команд\t\n");
         for(Command command : tempUser.getAllCommands()){

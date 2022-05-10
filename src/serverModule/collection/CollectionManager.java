@@ -1,5 +1,6 @@
 package serverModule.collection;
 
+import common.util.LabWorkBuilder;
 import common.collection.LabWork;
 import serverModule.commands.CommandHistory;
 import serverModule.util.ResponseOutputer;
@@ -16,7 +17,7 @@ public class CollectionManager extends LinkedHashSet<LabWork> {
     private LocalDateTime date = LocalDateTime.now();
 
     public LabWork generateNew() {
-        return new LabWork();
+        return LabWorkBuilder.buildLab();
     }
 
     public void objectsInfo() {
@@ -35,7 +36,11 @@ public class CollectionManager extends LinkedHashSet<LabWork> {
     }
 
     public float getMinimalMinimalPoint() {
-        return 0;
+        float n = Float.MAX_VALUE;
+        for (LabWork labWork : this) {
+            if (labWork.getMinimalPoint() < n) n = labWork.getMinimalPoint();
+        }
+        return n;
     }
 
     public LabWork generateNewIfMin(float userMinimalPoint) {
@@ -58,6 +63,24 @@ public class CollectionManager extends LinkedHashSet<LabWork> {
         List<LabWork> list = new ArrayList<>();
         list.addAll(0, this);
         return list;
+    }
+
+    public void update(Long id, LabWork labWork) {
+        labWork.setId(id);
+        for (LabWork labWork2 : this) {
+            if (labWork2.getId() == (id)) {
+                remove(labWork2);
+                add(labWork);
+            }
+        }
+    }
+
+    public long getMaximalId() {
+        long n = 0;
+        for (LabWork labWork : this) {
+            if (labWork.getId() > n) n = labWork.getId();
+        }
+        return n;
     }
 
     public void addToCommandHistory(String command) {

@@ -1,6 +1,7 @@
 package serverModule;
 
 import serverModule.collection.CollectionManager;
+import serverModule.util.FileOpener;
 import serverModule.util.User;
 
 import java.io.IOException;
@@ -15,7 +16,12 @@ public class ServerMain {
     public static final int PORT = 8000;
 
     public static void main(String[] args) throws IOException {
+        FileOpener fileOpener = new FileOpener();
         CollectionManager collectionManager = new CollectionManager();
+        try {
+            fileOpener.processInputFile(args[0], collectionManager);
+        } catch (Exception ignored) {
+        }
         User user = new User(collectionManager);
         Server server = new Server(PORT, user);
         server.run();

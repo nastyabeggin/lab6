@@ -12,7 +12,7 @@ public class ExitCommand extends AbstractCommand {
     }
 
     @Override
-    public void execute(String commandParameters) {
+    public void execute(String commandParameters, Object objectArgument) {
         System.exit(0);
     }
 }

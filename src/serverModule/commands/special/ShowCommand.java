@@ -15,7 +15,7 @@ public class ShowCommand extends AbstractCommand{
     }
 
     @Override
-    public void execute(String params) throws CommandException {
+    public void execute(String params, Object objectArgument) throws CommandException {
         collectionManager.objectsInfo();
     }
 }

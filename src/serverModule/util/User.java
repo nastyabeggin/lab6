@@ -47,7 +47,7 @@ public class User {
 
         while (true) {
             try {
-                commandMap.get(commandName).execute(commandParameters);
+                commandMap.get(commandName).execute(commandParameters, objectArgument);
                 this.collectionManager.addToCommandHistory(commandName);
                 return ResponseCode.OK;
             } catch (ParamException e) {
@@ -75,8 +75,8 @@ public class User {
         addCommand(new RemoveLowerCommand(collectionManager));
         addCommand(new RemoveByIdCommand(collectionManager));
         addCommand(new RemoveAllByMinimalPointCommand(collectionManager));
-        //addCommand(new UpdateIdCommand(collectionManager));
-        //addCommand(new ExecuteScriptCommand(collectionManager));
+        addCommand(new UpdateIdCommand(collectionManager));
+        addCommand(new ExecuteScriptCommand(collectionManager));
     }
 
 }

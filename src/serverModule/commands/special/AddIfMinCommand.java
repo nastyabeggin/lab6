@@ -1,9 +1,11 @@
 package serverModule.commands.special;
 
+import common.util.LabWorkBuilder;
 import serverModule.commands.*;
 import serverModule.collection.CollectionManager;
 import common.collection.LabWork;
 import serverModule.commands.exceptions.ParamException;
+import serverModule.util.ResponseOutputer;
 
 import java.util.Objects;
 
@@ -17,16 +19,18 @@ public class AddIfMinCommand extends AbstractCommand {
     }
 
     @Override
-    public void execute(String commandParameters) throws ParamException{
+    public void execute(String commandParameters, Object objectArgument) throws ParamException{
         float minimalMinimalPoint = collectionManager.getMinimalMinimalPoint();
         if (Objects.equals(commandParameters, "")) throw new ParamException();
         try {
             float userMinimalPoint = Float.parseFloat(commandParameters);
             if (minimalMinimalPoint > userMinimalPoint) {
-                LabWork newLabWork = collectionManager.generateNewIfMin(userMinimalPoint);
-                collectionManager.add(newLabWork);
+                LabWork labWork = (LabWork) objectArgument;
+                labWork.generateId(collectionManager);
+                collectionManager.add(labWork);
+                ResponseOutputer.append("Ваша лаба добавлена в коллекцию\n");
             } else {
-                System.out.println("Ваше значение больше минимального");
+                ResponseOutputer.append("Ваше значение больше минимального\n");
             }
         } catch (Exception e) {
             throw new ParamException();

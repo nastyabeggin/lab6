@@ -7,9 +7,8 @@ public interface Command {
     /**
      * Метод для взаимодействия с коллекцией
      * @param params - аргументы, которые передаются с командой
-     * @throws CommandException
      */
-    void execute(String params) throws CommandException;
+    void execute(String params, Object objectArgument) throws CommandException;
     String getName();
     String getDescription();
     void addToHistory();

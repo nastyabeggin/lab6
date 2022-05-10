@@ -1,6 +1,8 @@
 package common.collection;
 
-public class Coordinates {
+import java.io.Serializable;
+
+public class Coordinates implements Serializable {
     private Long x; //Значение поля должно быть больше -980, Поле не может быть null
     private int y;
     public Coordinates(Long x, int y){

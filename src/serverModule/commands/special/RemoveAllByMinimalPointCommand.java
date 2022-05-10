@@ -5,6 +5,7 @@ import serverModule.commands.*;
 import serverModule.collection.CollectionManager;
 import serverModule.commands.exceptions.CommandException;
 import serverModule.commands.exceptions.ParamException;
+import serverModule.util.ResponseOutputer;
 
 import java.util.Objects;
 
@@ -17,12 +18,14 @@ public class RemoveAllByMinimalPointCommand extends AbstractCommand {
     }
 
     @Override
-    public void execute(String commandParameters) throws CommandException {
+    public void execute(String commandParameters, Object objectArgument) throws CommandException {
         if (Objects.equals(commandParameters, "")) throw new ParamException();
         try {
             float userMinimalPoint = Float.parseFloat(commandParameters);
             collectionManager.removeIf(labWork -> labWork.getMinimalPoint() == userMinimalPoint);
+            ResponseOutputer.append("Команда выполнена \n");
         } catch (Exception e) {
+            ResponseOutputer.append("Команда не выполнена. Проблема с данными \n");
             throw new ParamException();
         }
     }

@@ -4,6 +4,7 @@ import serverModule.commands.*;
 import serverModule.collection.CollectionManager;
 import common.collection.LabWork;
 import serverModule.commands.exceptions.ParamException;
+import serverModule.util.ResponseOutputer;
 
 import java.util.Objects;
 
@@ -17,7 +18,7 @@ public class CountLessThanAveragePointCommand extends AbstractCommand {
     }
 
     @Override
-    public void execute(String commandParameters) throws ParamException {
+    public void execute(String commandParameters, Object objectArgument) throws ParamException {
         if (Objects.equals(commandParameters, "")) throw new ParamException();
         try {
             int n = 0;
@@ -25,7 +26,7 @@ public class CountLessThanAveragePointCommand extends AbstractCommand {
             for (LabWork labWork : collectionManager) {
                 if (labWork.getAveragePoint() < userAveragePoint) n++;
             }
-            System.out.println("У " + n + " лаб средний балл меньше");
+            ResponseOutputer.append("У " + n + " лаб средний балл меньше");
         } catch (Exception e) {
             throw new ParamException();
         }

@@ -126,23 +126,28 @@ public class Server {
             selector.wakeup();
 
         } catch (IOException | ClassNotFoundException ignored) {
+            System.out.println(ignored);
         }
     }
 
     private void write(SelectionKey key) throws IOException {
-        SocketChannel socketChannel = (SocketChannel) key.channel();
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
-        objectOutputStream.writeObject(response);
-        byte[] buffer = byteArrayOutputStream.toByteArray();
-        objectOutputStream.flush();
-        byteArrayOutputStream.flush();
-        byteArrayOutputStream.close();
-        objectOutputStream.close();
-        socketChannel.write(ByteBuffer.wrap(buffer));
-        SelectionKey selectionKey = socketChannel.keyFor(selector);
-        selectionKey.interestOps(SelectionKey.OP_READ);
-        selector.wakeup();
+        try {
+            SocketChannel socketChannel = (SocketChannel) key.channel();
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
+            objectOutputStream.writeObject(response);
+            byte[] buffer = byteArrayOutputStream.toByteArray();
+            objectOutputStream.flush();
+            byteArrayOutputStream.flush();
+            byteArrayOutputStream.close();
+            objectOutputStream.close();
+            socketChannel.write(ByteBuffer.wrap(buffer));
+            SelectionKey selectionKey = socketChannel.keyFor(selector);
+            selectionKey.interestOps(SelectionKey.OP_READ);
+            selector.wakeup();
+        } catch (Exception ignored) {
+
+        }
     }
 
     private Response executeRequest(Request request) {
